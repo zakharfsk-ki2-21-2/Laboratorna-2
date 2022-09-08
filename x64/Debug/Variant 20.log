@@ -1,0 +1,4 @@
+﻿  Variant 20.cpp
+H:\University\Programming\Kurs 2\Semestr 1\Completed tasks for Laboratory 2 Programming\Variant 20\Variant 20\Variant 20.cpp(23,34): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+H:\University\Programming\Kurs 2\Semestr 1\Completed tasks for Laboratory 2 Programming\Variant 20\Variant 20\Variant 20.cpp(25,23): warning C4101: 'number_car': unreferenced local variable
+  Variant 20.vcxproj -> H:\University\Programming\Kurs 2\Semestr 1\Completed tasks for Laboratory 2 Programming\Variant 20\Variant 20\x64\Debug\Variant 20.exe
