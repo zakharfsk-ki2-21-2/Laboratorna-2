@@ -7,6 +7,7 @@
 
 */
 
+#include <windows.h>
 #include "processing.h"
 
 using namespace std;
@@ -40,13 +41,16 @@ int main()
 	cout << endl << "You sucssesful login. Welcome, " << client.getFullName() << endl << endl;
 
 	if (!client.is_admin())
-	{
-		cout << "Please, choose the option:" << endl;
-		cout << SHOW_CARS << ". Show car" << endl;
-		cout << CHOICE_CAR << ". Choice car" << endl;
-		cout << EXIT << ". Exit" << endl;
+	{	
 		while (number_menu != EXIT)
 		{
+			cout << "Please, choose the option:" << endl;
+			cout << SHOW_CARS << ". Show car" << endl;
+			cout << CHOICE_CAR << ". Choice car" << endl;
+			cout << SHOW_CHOICES_CAR << ". My car" << endl;
+			cout << CREATE_APLICATION << ". Create aplications" << endl;
+			cout << EXIT << ". Exit" << endl << endl;
+
 			cout << "Enter choice: ";
 			cin >> number_menu;
 
@@ -56,49 +60,53 @@ int main()
 			}
 			else if (number_menu == CHOICE_CAR)
 			{
+				cout << "Enter number car: ";
+				cin >> number_car;
 				CarsStruct car_client = client.getCarByNumber(car, number_car);
-				cout << "You choice: " << endl;
+				cout << endl << "You choice: " << endl;
+	
 				car_client.printCar();
+				client.setChoiceClientCar(car_client);
+			}
+			else if (number_menu == SHOW_CHOICES_CAR)
+			{
+				client.getChoiceClientCar().printCar();
+			}
+			else if (number_menu == CREATE_APLICATION)
+			{
+				cout << "Do you want confirm order? (Y/n) ";
+				cin >> choice;
+				if (choice == "y" || choice == "Y")
+				{
+					cout << "Please, enter your Pasport ID: ";
+					cin >> pasp_id;
+					client.setPasportId(pasp_id);
+					
+					cout << "Enter lease term: ";
+					cin >> lease_term;
+					
+					cout << "We processing your application..." << endl << endl;
+					Sleep(1000);
+					
+					Applications app(client.getFullName(), pasp_id, lease_term);
+					app.createAplication(
+						ApplicationStruct{
+							1,
+							client.getChoiceClientCar(),
+							client.getFullName(),
+							client.getPasportId(),
+							app.getLeaseTerm()
+						}
+					);
+
+					cout << "Thanks you! We recive your applications and will consider in the near future." << endl << endl;
+					cout << "Your check" << endl << endl;
+					app.getApplications()->print_application();
+				}
 			}
 			else {
 				cout << "Sorry i dont understand this command" << endl;
 			}
 		}
 	}
-
-	//Client client(name, surname, password);
-	//Administrator admin(name, surname, password);
-
-	//client.showCars(car);
-	//
-	//cout << "Choice car by number: ";
-	//cin >> number_car;
-	//
-	//CarsStruct car_client = client.getCarByNumber(car, number_car);
-	//
-	//cout << "You choice: " << endl;
-	//car_client.printCar();
-
-	//cout << "Do you want confirm order? (Y/n)" << endl;
-	//cin >> choice;
-
-	//if (choice == "y" && choice == "Y") {
-	//	cout << "Please, enter your Pasport ID: ";
-	//	cin >> pasp_id;
-	//	cout << "Enter lease term: ";
-	//	cin >> lease_term;
-	//	cout << "We processed your aplication...";
-
-	//	Aplications app(client.getFullName(), pasp_id);
-	//	app.createAplication(
-	//		AplicationStruct{
-	//			1,
-	//			car_client,
-	//			client.getFullName(),
-	//			app.getPasportIdApp(),
-	//			lease_term
-	//		}
-	//	);
-	//};
-
 }

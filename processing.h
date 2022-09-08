@@ -43,18 +43,20 @@ public:
 	/* Methods */
 };
 
-class Aplications {
+class Applications {
 private:
 	string paspot_id;
 	string fullname;
-	AplicationStruct* aplications;
+	string lease_term;
+	ApplicationStruct* aplications;
 	
 public:
 	/* Constructors */
-	Aplications() {};
-	Aplications(string fullname, string pasp_id) {
+	Applications() {};
+	Applications(string fullname, string pasp_id, string lease_term) {
 		this->fullname = fullname;
 		this->paspot_id = pasp_id;
+		this->lease_term = lease_term;
 	};
 	/* End Constructors */
 	
@@ -62,28 +64,27 @@ public:
 	void setFullNameApp(string fullname) { this->fullname = fullname; };
 	string getFullNameApp() { return this->fullname; };
 	
-	void setPasportIdApp(string pass_id) { this->paspot_id = pass_id; };
-	string getPasportIdApp() { return this->paspot_id; };
-	
-	void setAplications(AplicationStruct aplc_struct) { this->aplications = new AplicationStruct(aplc_struct); };
-	AplicationStruct* getAplications() { return this->aplications; };
+	void setApplications(ApplicationStruct aplc_struct) { this->aplications = new ApplicationStruct(aplc_struct); };
+	ApplicationStruct* getApplications() { return this->aplications; };
+
+	void setLeaseTerm(string lease_term) { this->lease_term = lease_term; };
+	string getLeaseTerm() { return this->lease_term; };
 	/* End Getters and Setters */
 
 	/* Methods */
-	void createAplication(AplicationStruct aplication) {
+	void createAplication(ApplicationStruct application) {
 		ofstream file;
 		file.open("aplications.txt", ios::app);
-		file << aplication._id << " "
-			<< aplication.car.id_car << " "
-			<< aplication.car.brand << " " 
-			<< aplication.car.model << " " 
-			<< aplication.car.year << " " 
-			<< aplication.car.price << " " 
-			<< aplication.fullname << " "
-			<< aplication.pasport_id << " " 
-			<< aplication.lease_term 
-			<< endl;
+		file 
+			<< "ID order: " << application._id << endl
+			<< "Your full name: " << application.fullname << endl
+			<< "Your passport ID: " << application.pasport_id << endl
+			<< "Your lease_term: " << endl << endl
+			<< "Car info" << endl
+			<< application.car.brand << " " << application.car.model << endl
+			<< "Cost: " << application.car.price;
 		file.close();
+		setApplications(application);
 	};
 	/* End Methods */
 };
@@ -94,6 +95,7 @@ private:
 	string surname;
 	string password;
 	string adminpass = "admin";
+	long int money;
 	
 public:
 	/* Constructors */
