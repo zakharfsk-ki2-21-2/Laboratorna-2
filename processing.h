@@ -3,9 +3,18 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <iomanip>
+#include <vector>
 #include "structs.h"
 
 using namespace std;
+
+
+class Client;
+class Cars;
+class Application;
+class Man;
+class Administrator;
 
 
 class Cars {
@@ -40,6 +49,18 @@ public:
 	/* End Getters and Setters */
 
 	/* Methods */
+	void updateCarsStatus(CarsStruct cars) {
+		for (int i = 0; i < getSizeStruct(); i++)
+		{
+			cout << "cars.id_car " << cars.id_car << endl;
+			cout << "this->cars[i].id_car " << this->cars[i].id_car << endl;
+			if (cars.id_car == this->cars[i].id_car)
+			{
+				cout << "Change status";
+				this->cars[i].rent = true;
+			}
+		}
+	}
 	/* Methods */
 };
 
@@ -48,8 +69,9 @@ private:
 	string paspot_id;
 	string fullname;
 	string lease_term;
-	ApplicationStruct* aplications;
-	
+	Cars cars_app;
+	vector<ApplicationStruct> aplications;
+
 public:
 	/* Constructors */
 	Applications() {};
@@ -59,32 +81,53 @@ public:
 		this->lease_term = lease_term;
 	};
 	/* End Constructors */
-	
+
 	/* Getters and Setters */
 	void setFullNameApp(string fullname) { this->fullname = fullname; };
 	string getFullNameApp() { return this->fullname; };
-	
-	void setApplications(ApplicationStruct aplc_struct) { this->aplications = new ApplicationStruct(aplc_struct); };
-	ApplicationStruct* getApplications() { return this->aplications; };
+
+	void setApplications(ApplicationStruct aplc_struct) { this->aplications.push_back(aplc_struct); };
+	vector<ApplicationStruct> getApplications() { return this->aplications; };
+
+	void setCars(Cars cars) { this->cars_app = cars; };
 
 	void setLeaseTerm(string lease_term) { this->lease_term = lease_term; };
 	string getLeaseTerm() { return this->lease_term; };
-	/* End Getters and Setters */
+	/* End Getters and Setters , const string filepath*/
 
 	/* Methods */
-	void createAplication(ApplicationStruct application) {
-		ofstream file;
-		file.open("aplications.txt", ios::app);
-		file 
+	void file_txt(ApplicationStruct application, const string filepath)
+	{
+		ofstream file(filepath, ios::app);
+		file
 			<< "ID order: " << application._id << endl
 			<< "Your full name: " << application.fullname << endl
 			<< "Your passport ID: " << application.pasport_id << endl
 			<< "Your lease_term: " << endl << endl
 			<< "Car info" << endl
 			<< application.car.brand << " " << application.car.model << endl
-			<< "Cost: " << application.car.price;
+			<< "Cost: " << application.car.price
+			<< endl << endl;
 		file.close();
+	}
+	void file_dat(ApplicationStruct application, const string filepath)
+	{
+		ofstream file(filepath, ios::out | ios::binary | ios::app);
+		for (int i = 0; i < this->aplications.size(); i++)
+		{
+			file << setw(12) << 
+				this->aplications[i]._id << setw(10) << 
+				this->aplications[i].fullname << setw(10) << 
+				this->aplications[i].pasport_id << setw(10) << 
+				this->aplications[i].lease_term << endl;
+		}
+		file.close();
+	}
+	void createAplication(ApplicationStruct application) {
+		file_txt(application, "aplications.txt");
+		file_dat(application, "aplications.dat");
 		setApplications(application);
+		this->cars_app.updateCarsStatus(application.car);
 	};
 	/* End Methods */
 };
@@ -104,12 +147,17 @@ public:
 			this->name = name;
 			this->surname = surname;
 			this->password = password;
+			this->money = 5000;
 		};
 	/* End Constructors */
 		
 	/* Getters and Setters */
 	string getPassword() { return this->password; };
 	string getFullName() { return this->name + " " + this->surname; };
+	
+	long int getMoney() { return this->money; };
+	void setMoney(long int money) { this->money = money; };
+
 	void setNamae(string name) { this->name = name; };
 	void setSurname(string surname) { this->surname = surname; };
 	void setPassword(string password) { this->password = password; };
@@ -124,12 +172,13 @@ class Client : public Man {
 private:
 	string pasport_id;
 	CarsStruct choice_client_car;
-		
+	Cars cars_clinet_side;
+
 public:
+	Client() {};
 	/* Constructors */
-	Client(string name, string surname, string password) : Man(name, surname, password) {};
-	Client(string name, string surname, string password, string pasp_id) : Man(name, surname, password) {
-		this->pasport_id = pasp_id;
+	Client(string name, string surname, string password, Cars cars) : Man(name, surname, password) {
+		this->cars_clinet_side = cars;
 	};
 	/* End Constructors */
 		
@@ -142,17 +191,17 @@ public:
 	/* End Getters and Setters */
 	
 	/* Methods */
-	CarsStruct getCarByNumber(Cars* cars, int number) {
-		CarsStruct* c = cars->getCars();
-		for (int i = 0; i < cars->getSizeStruct(); i++) {
+	CarsStruct getCarByNumber(int number) {
+		CarsStruct* c = cars_clinet_side.getCars();
+		for (int i = 0; i < cars_clinet_side.getSizeStruct(); i++) {
 			if (c[i].id_car == number) {
 				return c[i];
 			};
 		};
 	};
-	void showCars(Cars* cars) {
-		CarsStruct* c = cars->getCars();
-		for (int i = 0; i < cars->getSizeStruct(); i++) {
+	void showCars() {
+		CarsStruct* c = cars_clinet_side.getCars();
+		for (int i = 0; i < cars_clinet_side.getSizeStruct(); i++) {
 			c[i].printCar();
 		};
 	};
@@ -161,13 +210,20 @@ public:
 	
 class Administrator : public Man {
 private:
-
+	Applications applications;
 public:
-	Administrator(string name, string surname, string password) : Man(name, surname, password) {};
+	/* Constructors */
+	Administrator() {};
+	Administrator(string name, string surname, string password, Applications appl) : Man(name, surname, password) {
+		this->applications = appl;
+	};
+	/* End Constructors */
 	
 	void showApplications() {
-		if (this->is_admin()) {
-			return;
+		for (int i = 0; i < this->applications.getApplications().size(); i++)
+		{
+			this->applications.getApplications()[i].print_application();
 		}
 	};
+
 };

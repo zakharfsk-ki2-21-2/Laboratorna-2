@@ -10,7 +10,14 @@ enum StartMenu
 	CHOICE_CAR = 2,
 	SHOW_CHOICES_CAR = 3,
 	CREATE_APLICATION = 4,
-	EXIT = 5
+	ADMIN_PANEL = 5,
+	EXIT = 6
+};
+
+enum AdminMenu
+{
+	SHOW_APPLICATION = 7,
+	EXIT_ADMIN = 9
 };
 
 struct CarsStruct
@@ -36,7 +43,7 @@ struct CarsStruct
 
 struct ApplicationStruct
 {
-	int _id;
+	unsigned long long _id;
 	CarsStruct car;
 	string fullname;
 	string pasport_id;
@@ -47,10 +54,9 @@ struct ApplicationStruct
 			<< "ID order: " << _id << endl
 			<< "Your full name: " << fullname << endl
 			<< "Your passport ID: " << pasport_id << endl
-			<< "Your lease_term: " << endl << endl
+			<< "Your lease_term: " << lease_term << endl << endl
 			<< "Car info" << endl
 			<< car.brand << " " << car.model << endl
 			<< "Cost: " << car.price << endl << endl;
 	}
-	
 };

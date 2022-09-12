@@ -1,36 +1,99 @@
 ID order: 1
-Your full name: Zakhar Fesenko
-Your passport ID: 12341234
+Your full name: test test
+Your passport ID: 123
 Your lease_term: 
 
 Car info
-Audi R8
-Cost: 1300ID order: 1
-Your full name: Zakhar Fesenko
-Your passport ID: 
+BMW X5
+Cost: 1000
+
+ID order: 1
+Your full name: test test
+Your passport ID: 123
 Your lease_term: 
 
 Car info
-Audi R8
-Cost: 1300ID order: 1
-Your full name: Zakhar Fesenjo
-Your passport ID: 12341234
+BMW X5
+Cost: 1000
+
+ID order: 1
+Your full name: test test
+Your passport ID: 123
 Your lease_term: 
 
 Car info
-Audi R8
-Cost: 1300ID order: 1
+BMW X5
+Cost: 1000
+
+ID order: 1
+Your full name: test test
+Your passport ID: 123
+Your lease_term: 
+
+Car info
+BMW X5
+Cost: 1000
+
+ID order: 1
+Your full name: test test
+Your passport ID: 123
+Your lease_term: 
+
+Car info
+BMW X5
+Cost: 1000
+
+ID order: 1
 Your full name: Test Test
-Your passport ID: 12341234
-Your lease_term: 
-
-Car info
-Audi R8
-Cost: 1300ID order: 1
-Your full name: Test Super
 Your passport ID: 12341234
 Your lease_term: 
 
 Car info
 BMW X5
 Cost: 1000
+
+ID order: 1
+Your full name: Test Test
+Your passport ID: 1234
+Your lease_term: 
+
+Car info
+BMW X5
+Cost: 1000
+
+ID order: 1
+Your full name: Test Test
+Your passport ID: 12341234
+Your lease_term: 
+
+Car info
+BMW X5
+Cost: 1000
+
+ID order: 1
+Your full name: Test Test
+Your passport ID: 1234
+Your lease_term: 
+
+Car info
+Mercedes G5
+Cost: 3000
+
+ID order: 1
+Your full name: Test Test
+Your passport ID: 1234
+Your lease_term: 
+
+Car info
+Mercedes G5
+Cost: 3000
+
+ID order: 2
+Your full name: Test Test
+Your passport ID: 123456123456
+Your lease_term: 
+
+Car info
+Audi R8
+Cost: 1300
+
