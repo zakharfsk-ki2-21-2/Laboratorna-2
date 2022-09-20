@@ -23,8 +23,8 @@ int main()
 	};
 	Cars car = Cars(s, size(s));
 
-	int number_menu = 0, number_car, number_admin = 0;
-	string name, surname, password, pasp_id, choice, lease_term;
+	int number_menu = 0, number_admin = 0, number_car, number_application;
+	string name, surname, password, pasp_id, choice, lease_term, choice_status;
 
 	cout << "Hello and welcome to the CarRental services." << endl;
 	cout << "Pleas enter your name, surname and password." << endl << endl;
@@ -45,13 +45,16 @@ int main()
 	{
 		cout << endl << "Please, choose the option:" << endl;
 		cout << SHOW_CARS << ". Show car" << endl;
+		cout << MY_BALANCE << ". My balance" << endl;
 		cout << CHOICE_CAR << ". Choice car" << endl;
 		cout << SHOW_CHOICES_CAR << ". My car" << endl;
-		cout << CREATE_APLICATION << ". Create aplications" << endl;
+		cout << SHOW_APPLICATION_CLIENT << ". Show applications" << endl;
+		cout << CREATE_APLICATION << ". Create applications" << endl;
 		if (client.is_admin())
 		{
 			cout << ADMIN_PANEL << ". Admin panel" << endl;
 		}
+		cout << RE_ENTER_PASSWORD << ". Re-enter password" << endl;
 		cout << EXIT << ". Exit" << endl << endl;
 
 		cout << "Enter choice: ";
@@ -60,6 +63,10 @@ int main()
 		if (number_menu == SHOW_CARS)
 		{
 			client.showCars();
+		}
+		else if (number_menu == MY_BALANCE)
+		{
+			cout << "Your Balance: " << client.getMoney() << " UAH" << endl;
 		}
 		else if (number_menu == CHOICE_CAR)
 		{
@@ -102,6 +109,7 @@ int main()
 						client.getFullName(),
 						client.getPasportId(),
 						app.getLeaseTerm(),
+						"Processing"
 					}
 				);
 
@@ -112,16 +120,22 @@ int main()
 					<< "UAH " << client.getChoiceClientCar().price 
 					<< " will be deducted from your balance."
 					<< endl << endl;
+				client.setApplicat(app);
 			}
+		}
+		else if (number_menu == SHOW_APPLICATION_CLIENT)
+		{
+			client.showApplications();
 		}
 		else if (number_menu == ADMIN_PANEL) {
 			if (client.is_admin()) 
 			{
-				Administrator admin(name, surname, password, app);
+				Administrator admin(name, surname, password);
 				while (number_admin != EXIT_ADMIN)
 				{
 					cout << "Please, choose the option:" << endl;
-					cout << SHOW_APPLICATION << ". Show applications" << endl;
+					cout << SHOW_APPLICATION_ADMIN << ". Show applications" << endl;
+					cout << CHANGE_STATUS_APPLICATION << ". Change status applications" << endl;
 					cout << EXIT_ADMIN << ". Exit admin panel" << endl << endl;
 
 					cout << "Enter choice: ";
@@ -131,9 +145,17 @@ int main()
 					{
 						number_menu = 0;
 					}
-					else if (number_admin == SHOW_APPLICATION)
+					else if (number_admin == SHOW_APPLICATION_ADMIN)
 					{
-						admin.showApplications();
+						admin.showApplications(&app);
+					}
+					else if (number_admin == CHANGE_STATUS_APPLICATION)
+					{
+						cout << "Enter number application: ";
+						cin >> number_application;
+						cout << "Enter status (Aprove, Reject): ";
+						cin >> choice_status;
+						admin.changeStatus(number_application, choice_status, &client, &app);
 					}
 				}
 			}
@@ -141,6 +163,12 @@ int main()
 			{
 				cout << "You shouldn't have seen it" << endl;
 			}
+		}
+		else if (number_menu == RE_ENTER_PASSWORD)
+		{
+			cout << "Enter new Password: ";
+			cin >> password;
+			client.setPassword(password);
 		}
 	}
 }

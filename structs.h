@@ -1,23 +1,27 @@
 #pragma once
 #include <iostream>
-#include <string>
+#include "processing.h"
 
 using namespace std;
 
 enum StartMenu
 {
 	SHOW_CARS = 1,
-	CHOICE_CAR = 2,
-	SHOW_CHOICES_CAR = 3,
-	CREATE_APLICATION = 4,
-	ADMIN_PANEL = 5,
-	EXIT = 6
+	MY_BALANCE = 2,
+	CHOICE_CAR = 3,
+	SHOW_CHOICES_CAR = 4,
+	SHOW_APPLICATION_CLIENT = 5,
+	CREATE_APLICATION = 6,
+	ADMIN_PANEL = 7,
+	RE_ENTER_PASSWORD = 8,
+	EXIT = 9
 };
 
 enum AdminMenu
 {
-	SHOW_APPLICATION = 7,
-	EXIT_ADMIN = 9
+	SHOW_APPLICATION_ADMIN = 10,
+	CHANGE_STATUS_APPLICATION = 11,
+	EXIT_ADMIN = 12
 };
 
 struct CarsStruct
@@ -48,6 +52,7 @@ struct ApplicationStruct
 	string fullname;
 	string pasport_id;
 	string lease_term;
+	string status;
 	
 	void print_application() {
 		cout
@@ -57,6 +62,7 @@ struct ApplicationStruct
 			<< "Your lease_term: " << lease_term << endl << endl
 			<< "Car info" << endl
 			<< car.brand << " " << car.model << endl
-			<< "Cost: " << car.price << endl << endl;
+			<< "Cost: " << car.price << endl
+			<< "Status: " << status << endl << endl;
 	}
 };

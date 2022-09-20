@@ -12,7 +12,7 @@ using namespace std;
 
 class Client;
 class Cars;
-class Application;
+class Applications;
 class Man;
 class Administrator;
 
@@ -52,8 +52,6 @@ public:
 	void updateCarsStatus(CarsStruct cars) {
 		for (int i = 0; i < getSizeStruct(); i++)
 		{
-			cout << "cars.id_car " << cars.id_car << endl;
-			cout << "this->cars[i].id_car " << this->cars[i].id_car << endl;
 			if (cars.id_car == this->cars[i].id_car)
 			{
 				cout << "Change status";
@@ -70,6 +68,7 @@ private:
 	string fullname;
 	string lease_term;
 	Cars cars_app;
+	Client *client_app;
 	vector<ApplicationStruct> aplications;
 
 public:
@@ -87,9 +86,13 @@ public:
 	string getFullNameApp() { return this->fullname; };
 
 	void setApplications(ApplicationStruct aplc_struct) { this->aplications.push_back(aplc_struct); };
+	void changeApplications(ApplicationStruct appl, int number) { this->aplications[number] = appl; };
 	vector<ApplicationStruct> getApplications() { return this->aplications; };
 
 	void setCars(Cars cars) { this->cars_app = cars; };
+	
+	Client* getClient() { return this->client_app; }
+	void setClient(Client* client) { this->client_app = client; }
 
 	void setLeaseTerm(string lease_term) { this->lease_term = lease_term; };
 	string getLeaseTerm() { return this->lease_term; };
@@ -107,7 +110,7 @@ public:
 			<< "Car info" << endl
 			<< application.car.brand << " " << application.car.model << endl
 			<< "Cost: " << application.car.price
-			<< endl << endl;
+			<< endl << "------------------------------" << endl;
 		file.close();
 	}
 	void file_dat(ApplicationStruct application, const string filepath)
@@ -138,7 +141,7 @@ private:
 	string surname;
 	string password;
 	string adminpass = "admin";
-	long int money;
+	long int money = 5000;
 	
 public:
 	/* Constructors */
@@ -147,7 +150,6 @@ public:
 			this->name = name;
 			this->surname = surname;
 			this->password = password;
-			this->money = 5000;
 		};
 	/* End Constructors */
 		
@@ -173,6 +175,7 @@ private:
 	string pasport_id;
 	CarsStruct choice_client_car;
 	Cars cars_clinet_side;
+	Applications appl;
 
 public:
 	Client() {};
@@ -185,6 +188,9 @@ public:
 	/* Getters and Setters */
 	string getPasportId() { return this->pasport_id; };
 	void setPasportId(string pasport_id) { this->pasport_id = pasport_id; };
+
+	void setApplicat(Applications apl) { this->appl = apl; }
+	Applications getApplicat() { return this->appl; }
 
 	CarsStruct getChoiceClientCar() { return this->choice_client_car; };
 	void setChoiceClientCar(CarsStruct choice_client_car) { this->choice_client_car = choice_client_car; };
@@ -205,25 +211,57 @@ public:
 			c[i].printCar();
 		};
 	};
+	void showApplications() {
+		for (int i = 0; i < this->appl.getApplications().size(); i++)
+		{
+			this->appl.getApplications()[i].print_application();
+		}
+	}
 	/* End Methods */
 };
-	
+
 class Administrator : public Man {
-private:
-	Applications applications;
 public:
 	/* Constructors */
 	Administrator() {};
-	Administrator(string name, string surname, string password, Applications appl) : Man(name, surname, password) {
-		this->applications = appl;
-	};
+	Administrator(string name, string surname, string password) : Man(name, surname, password) {};
 	/* End Constructors */
 	
-	void showApplications() {
-		for (int i = 0; i < this->applications.getApplications().size(); i++)
+	/* Methods */
+	void showApplications(Applications* app)
+	{
+		for (int i = 0; i < app->getApplications().size(); i++)
 		{
-			this->applications.getApplications()[i].print_application();
+			app->getApplications()[i].print_application();
 		}
 	};
-
+	void changeStatus(int number_app, string status_appl, Client *cl, Applications *app)
+	{
+		vector<ApplicationStruct> apps = app->getApplications();
+		if (status_appl == "Aprove") {
+			for (int i = 0; i < apps.size(); i++)
+			{
+				if (apps[i]._id == number_app)
+				{
+					apps[i].status = status_appl;
+					app->changeApplications(apps[i], i);
+					cl->setMoney(cl->getMoney() - apps[i].car.price);
+					return;
+				}
+			}
+		}
+		else if (status_appl == "Reject")
+		{
+			for (int i = 0; i < apps.size(); i++)
+			{
+				if (apps[i]._id == number_app)
+				{
+					apps[i].status = status_appl;
+					app->changeApplications(apps[i], i);
+					return;
+				}
+			}
+		}
+	};
+	/* End Methods */
 };

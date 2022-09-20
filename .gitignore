@@ -5,8 +5,8 @@
 # Prerequisites
 *.d
 
-vs
-x64
+.vs
+x64/
 
 # Compiled Object files
 *.slo
