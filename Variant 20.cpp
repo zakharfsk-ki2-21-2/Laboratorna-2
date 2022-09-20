@@ -22,6 +22,7 @@ int main()
 		CarsStruct{5, 350, "Reno", "Logan", 2001, 180, false}
 	};
 	Cars car = Cars(s, size(s));
+	Catalog catalog(car);
 
 	int number_menu = 0, number_admin = 0, number_car, number_application;
 	string name, surname, password, pasp_id, choice, lease_term, choice_status;
@@ -62,7 +63,7 @@ int main()
 
 		if (number_menu == SHOW_CARS)
 		{
-			client.showCars();
+			catalog.showCars();
 		}
 		else if (number_menu == MY_BALANCE)
 		{
@@ -131,8 +132,10 @@ int main()
 			if (client.is_admin()) 
 			{
 				Administrator admin(name, surname, password);
+				SalesDepartment sales_dep(&admin);
 				while (number_admin != EXIT_ADMIN)
 				{
+					cout << "Hello, " << sales_dep.getFullName() << " Admin" << endl << endl;
 					cout << "Please, choose the option:" << endl;
 					cout << SHOW_APPLICATION_ADMIN << ". Show applications" << endl;
 					cout << CHANGE_STATUS_APPLICATION << ". Change status applications" << endl;

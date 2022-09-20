@@ -15,6 +15,8 @@ class Cars;
 class Applications;
 class Man;
 class Administrator;
+class Catalog;
+class SalesDepartment;
 
 
 class Cars {
@@ -264,4 +266,31 @@ public:
 		}
 	};
 	/* End Methods */
+};
+
+class Catalog {
+private:
+	Cars cars;
+public:
+	Catalog(Cars car) { this->cars = car; }
+	
+	void showCars() {
+		CarsStruct* c = cars.getCars();
+		for (int i = 0; i < cars.getSizeStruct(); i++) {
+			c[i].printCar();
+		};
+	};
+};
+
+class SalesDepartment {
+private:
+	Administrator *admin;
+	string name_sales;
+	string lastname_sales;
+public:
+	SalesDepartment(Administrator *admin = nullptr)
+		:admin(admin) {}
+	
+	string getFullName() { return this->name_sales + " " + this->lastname_sales; }
+
 };
